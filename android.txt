@@ -1,0 +1,3 @@
+title=01StickMan (copy 2)
+author=SpamBot
+orientation=portrait

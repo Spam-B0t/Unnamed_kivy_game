@@ -1,0 +1,159 @@
+#:import randint random.randint
+<menu_scr>:
+    canvas:
+        Color:
+            rgb: .1, .8, 1
+        Rectangle:
+            size: root.width, root.height
+    start_btn: start
+    setup_btn: setup
+    Button:
+        size_hint: .6, .2
+        id: start
+        pos: '50dp',  '100dp'
+        background_normal: 'start_btn.png'
+        background_down: 'start_btn.png'
+        #text: 'start'
+        #on_press: root.manager.current = 'game'
+        on_press: root.start_game()
+        on_release: 
+    Button:
+        size_hint: .4, .2
+        id: setup
+        pos: '100dp',  '100dp'
+        background_normal: 'setup_btn.png'
+        background_down: 'setup_btn.png'
+        #text: 'settings'
+        on_press: root.manager.current = 'settings'
+        on_release: 
+
+<setup_scr>:
+    Button:
+        size_hint: .1, .1
+        id: start
+        pos: '100dp',  '100dp'
+        text: 'Go back'
+        on_press: root.manager.current = 'menu'
+        on_release: 
+
+<game_scr>:
+    player: player
+    enemy: enemy
+    grass: grass
+    pogo_stck: pogo
+    Widget:
+        id: grass
+        size_hint: None, None
+        size: root.width, root.height/8
+        canvas:
+            Color:
+                rgb: 0, 1, 0
+            Rectangle:
+                pos: 0, 0
+                #size: root.width, root.height/8
+                size: self.width, self.height
+    Widget:
+        id: background
+        canvas:
+            Color:
+                rgb: 0, .8, 1
+            Rectangle:
+                pos: 0, root.height/8
+                size: root.width, root.height*7/8
+    Widget:
+        id: pogo
+        #size_hint: .1, .1
+        size_hint: None, None
+        size: 100, root.height/8
+        pos: randint(10, player.parent.width-player.width-70), '225dp'
+        #pos: root.pogo_pos_x, '225dp'
+        canvas:
+            Color:
+                rgb: 1, 1, 1
+            Rectangle:
+                source: 'bread.png'
+                pos: self.x, self.y
+                size: self.width, self.height
+    Widget:
+        id: player
+        #size_hint: .1, .1
+        size_hint: None, None
+        size: root.width/6, root.height/3
+        pos: '100dp', '0dp'
+        canvas:
+            Color:
+                rgb: 1, 1, 1
+            Rectangle:
+                size: self.width, self.height
+                #size: root.width/6, root.height/3
+                pos: self.x, self.y
+                source: 'player.png'
+    enemy:
+        id: enemy
+    Button:
+        size_hint: .1, .1
+        pos: root.width-self.width-50,  '100dp'
+        #text: 'R'
+        background_normal: 'r.png'
+        background_down: 'r_pressed.png'
+        on_press: root.move_r()
+        on_release: root.stop()
+    Button:
+        size_hint: .1, .1
+        pos: '50dp',  '100dp'
+        #text: 'L'
+        background_normal: 'l.png'
+        background_down: 'l_pressed.png'
+        on_press: root.move_l()
+        on_release: root.stop()
+    DragLabel:
+        pos: 0, root.height/2
+        size_hint: 0.5, 0.5
+        text: 'Score: '+str(root.score)
+
+<gameover_scr>:
+    Label:
+        size_hint: 0.5, 0.5
+        text: 'YOU LOST!'
+    Button:
+        size_hint: .1, .1
+        id: start
+        pos: '100dp',  '100dp'
+        text: 'Return to Menu'
+        on_press: root.manager.current = 'menu'
+        on_release: 
+
+<DragLabel>:
+    #drag_rectangle: self.x, self.y, self.width, self.height
+    drag_rectangle: self.x, self.y, root.width, root.height
+    drag_timeout: 10000000
+    drag_distance: 0
+
+<candy>:
+    pos: root.pogo_pos_x, '225dp'
+    #size_hint: .1, .1
+    size_hint: None, None
+    size: 100/(root.score+1), root.height/8
+    canvas:
+        Color:
+            rgb: 1, 0, 0
+        Rectangle:
+            pos: self.x, self.y
+            #size: 10/(root.score+1), root.height/12
+            size: self.width, self.height
+
+<enemy>:
+    size_hint: None, None
+    size: str(randint(10, 100))+'dp', '50dp'
+    pos: randint(10, 200), '800dp'
+    canvas:
+        Color:
+            rgb: 1, 0, 1
+        Rectangle:
+            source: 'brick.png'
+            pos: self.x, self.y
+            size: self.width, self.height
+        
+    
+
+    
